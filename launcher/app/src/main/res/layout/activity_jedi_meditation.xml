@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#06101B">
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:src="@drawable/jedi_wallpaper_night" android:scaleType="centerCrop" />
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="@drawable/jedi_background_scrim" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="center" android:orientation="vertical" android:gravity="center"
+        android:padding="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="MEDITACIÓN JEDI" android:textSize="23sp" android:textStyle="bold"
+            android:textColor="#D9F6FF" />
+        <TextView android:id="@+id/jediMeditationTime" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="10:00" android:textSize="86sp" android:fontFamily="sans-serif-light"
+            android:textColor="#FFFFFF" android:layout_marginTop="24dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Respira con calma. Enfoca tu atención."
+            android:textColor="#D8F6FF" android:textSize="19sp" android:layout_marginTop="8dp"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="27dp">
+            <Button android:id="@+id/jediMeditationToggle" android:layout_width="145dp" android:layout_height="wrap_content"
+                android:text="Pausar" android:focusable="true" />
+            <Button android:id="@+id/jediMeditationFinish" android:layout_width="145dp" android:layout_height="wrap_content"
+                android:layout_marginStart="17dp" android:text="Finalizar" android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -1,122 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#020D1D">
-
-    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:src="@drawable/jedi_wallpaper" android:scaleType="centerCrop" android:importantForAccessibility="no"/>
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#06101B"
+    android:clipChildren="false" android:clipToPadding="false">
+    <ImageView android:id="@+id/jediBackdrop" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:src="@drawable/jedi_wallpaper"
+        android:scaleType="centerCrop" android:importantForAccessibility="no"/>
     <View android:layout_width="match_parent" android:layout_height="match_parent"
-        android:background="@drawable/jedi_background_scrim" android:importantForAccessibility="no"/>
+        android:background="@drawable/jedi_background_scrim" android:importantForAccessibility="no" />
 
-    <!-- Side rail keeps TV focus explicit, with the existing classic home accessible as a fallback. -->
     <LinearLayout android:layout_width="86dp" android:layout_height="wrap_content"
-        android:layout_gravity="start|center_vertical" android:layout_marginStart="14dp"
-        android:orientation="vertical" android:gravity="center" android:background="@drawable/jedi_rail"
-        android:padding="7dp">
-        <TextView android:id="@+id/jediNavHome" android:layout_width="match_parent" android:layout_height="66dp"
-            android:gravity="center" android:background="@drawable/jedi_tile" android:text="⌂" android:textSize="32sp" android:textColor="#70D8FF" android:focusable="true" android:clickable="true" android:contentDescription="Inicio"/>
-        <TextView android:id="@+id/jediNavApps" android:layout_width="match_parent" android:layout_height="66dp"
-            android:gravity="center" android:text="▦" android:textSize="30sp" android:textColor="#FFFFFF" android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true" android:contentDescription="Todas las aplicaciones"/>
-        <TextView android:id="@+id/jediNavSettings" android:layout_width="match_parent" android:layout_height="66dp"
-            android:gravity="center" android:text="⚙" android:textSize="28sp" android:textColor="#FFFFFF" android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true" android:contentDescription="Configuración"/>
-        <TextView android:id="@+id/jediNavMaintenance" android:layout_width="match_parent" android:layout_height="66dp"
-            android:gravity="center" android:text="☷" android:textSize="28sp" android:textColor="#FFFFFF" android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true" android:contentDescription="Mantenimiento"/>
-        <TextView android:id="@+id/jediNavInfo" android:layout_width="match_parent" android:layout_height="66dp"
-            android:gravity="center" android:text="ⓘ" android:textSize="29sp" android:textColor="#FFFFFF" android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true" android:contentDescription="Información"/>
+        android:layout_gravity="start|center_vertical" android:layout_marginStart="13dp"
+        android:orientation="vertical" android:gravity="center"
+        android:background="@drawable/jedi_rail" android:padding="6dp"
+        android:clipChildren="false">
+        <TextView android:id="@+id/jediNavHome" android:layout_width="match_parent" android:layout_height="67dp"
+            android:gravity="center" android:background="@drawable/jedi_tile" android:text="⌂"
+            android:textSize="33sp" android:textColor="#8EE5FF" android:focusable="true" android:clickable="true" android:contentDescription="Inicio"/>
+        <TextView android:id="@+id/jediNavApps" android:layout_width="match_parent" android:layout_height="67dp"
+            android:gravity="center" android:background="@drawable/jedi_tile" android:text="▦"
+            android:textSize="30sp" android:textColor="#FFFFFF" android:focusable="true" android:clickable="true" android:contentDescription="Todas las aplicaciones"/>
+        <TextView android:id="@+id/jediNavSettings" android:layout_width="match_parent" android:layout_height="67dp"
+            android:gravity="center" android:background="@drawable/jedi_tile" android:text="⚙"
+            android:textSize="29sp" android:textColor="#FFFFFF" android:focusable="true" android:clickable="true" android:contentDescription="Configuración"/>
+        <TextView android:id="@+id/jediNavMaintenance" android:layout_width="match_parent" android:layout_height="67dp"
+            android:gravity="center" android:background="@drawable/jedi_tile" android:text="☷"
+            android:textSize="29sp" android:textColor="#FFFFFF" android:focusable="true" android:clickable="true" android:contentDescription="Mantenimiento"/>
+        <TextView android:id="@+id/jediNavInfo" android:layout_width="match_parent" android:layout_height="67dp"
+            android:gravity="center" android:background="@drawable/jedi_tile" android:text="ⓘ"
+            android:textSize="28sp" android:textColor="#FFFFFF" android:focusable="true" android:clickable="true" android:contentDescription="Información"/>
     </LinearLayout>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:layout_marginStart="122dp" android:layout_marginEnd="30dp"
-        android:paddingTop="20dp" android:paddingBottom="22dp" android:orientation="vertical">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_marginStart="116dp" android:layout_marginEnd="22dp"
+        android:fillViewport="true" android:scrollbars="none" android:focusable="false">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+          android:orientation="vertical" android:paddingTop="15dp" android:paddingBottom="16dp"
+          android:clipChildren="false" android:clipToPadding="false">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="horizontal" android:gravity="center_vertical">
             <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-                android:text="✦  CleanYourTV  ·  JEDI EDITION" android:textStyle="bold" android:textSize="25sp" android:textColor="#D8F4FF"/>
-            <TextView android:id="@+id/jediConnectivity" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Red" android:textSize="15sp" android:textColor="#DDFFFFFF" android:paddingEnd="26dp"/>
-            <TextView android:id="@+id/jediStorage" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Almacenamiento" android:textSize="15sp" android:textColor="#DDFFFFFF"/>
+                android:text="✦  CleanYourTV  ·  Jedi Edition 2.0" android:textSize="23sp"
+                android:textStyle="bold" android:textColor="#E7F8FF" android:singleLine="true" />
+            <TextView android:id="@+id/jediConnectivity" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Red" android:textSize="13sp"
+                android:textColor="#E0F6FF" android:paddingStart="12dp" android:paddingEnd="14dp"
+                android:paddingTop="9dp" android:paddingBottom="9dp"
+                android:background="@drawable/jedi_status_pill" />
+            <TextView android:id="@+id/jediStorage" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_marginStart="10dp"
+                android:text="Almacenamiento" android:textSize="13sp" android:textColor="#E0F6FF"
+                android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="9dp"
+                android:paddingBottom="9dp" android:background="@drawable/jedi_status_pill"/>
         </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"
-            android:gravity="center_vertical" android:layout_marginTop="18dp">
-            <TextClock android:id="@+id/jediClock" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:format12Hour="h:mm a" android:format24Hour="HH:mm" android:textSize="54sp" android:textColor="#FFFFFFFF"
-                android:fontFamily="sans-serif-light"/>
-            <View android:layout_width="1dp" android:layout_height="38dp" android:background="#99FFFFFF"
-                android:layout_marginStart="22dp" android:layout_marginEnd="22dp"/>
-            <TextClock android:id="@+id/jediDate" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="23dp">
+            <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:format12Hour="h:mm a" android:format24Hour="HH:mm"
+                android:textSize="49sp" android:fontFamily="sans-serif-light" android:textColor="#FFFFFF" />
+            <View android:layout_width="1dp" android:layout_height="39dp" android:background="#99FFFFFF"
+                android:layout_marginStart="20dp" android:layout_marginEnd="19dp" />
+            <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:format12Hour="EEEE, d 'de' MMMM" android:format24Hour="EEEE, d 'de' MMMM"
-                android:textSize="19sp" android:textColor="#E0FFFFFF"/>
+                android:textSize="17sp" android:textColor="#F1FAFF" />
+            <TextView android:id="@+id/jediWeather" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginStart="23dp" android:paddingStart="15dp" android:paddingEnd="15dp"
+                android:paddingTop="11dp" android:paddingBottom="11dp" android:background="@drawable/jedi_status_pill"
+                android:text="☁  Bogotá · Clima" android:textColor="#FFFFFF" android:textSize="14sp"
+                android:focusable="true" android:clickable="true" android:contentDescription="Información del clima"/>
         </LinearLayout>
         <TextView android:id="@+id/jediGreeting" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="34dp" android:text="Bienvenido, Carlos" android:textSize="28sp" android:textColor="#DAF7FF"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp"
-            android:text="La calma enfoca la Fuerza. La claridad guía las decisiones." android:textSize="17sp"
-            android:textStyle="italic" android:textColor="#EEFFFFFF"/>
-        <View android:layout_width="85dp" android:layout_height="3dp" android:layout_marginTop="18dp" android:background="#42CBFF"/>
-
-        <Space android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Mis aplicaciones"
-            android:layout_marginBottom="10dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="100dp" android:orientation="horizontal"
-            android:clipChildren="false" android:clipToPadding="false">
+            android:layout_marginTop="30dp" android:text="Buenas noches, Carlos" android:textSize="30sp"
+            android:textColor="#E8F9FF" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="La calma enfoca la Fuerza. La claridad guía las decisiones."
+            android:layout_marginTop="5dp" android:textSize="16sp" android:textStyle="italic" android:textColor="#E9FFFFFF"/>
+        <View android:layout_width="90dp" android:layout_height="3dp" android:layout_marginTop="15dp"
+            android:background="#29C8FF" />
+        <Space android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Mis Aplicaciones" android:textSize="23sp" android:textStyle="bold"
+            android:textColor="#FFFFFF" android:layout_marginBottom="12dp" android:layout_marginTop="22dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="105dp"
+            android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false">
             <LinearLayout android:id="@+id/jediYouTube" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp"
-                android:gravity="center" android:orientation="horizontal" android:padding="10dp" android:background="@drawable/jedi_tile"
-                android:focusable="true" android:clickable="true" android:focusableInTouchMode="false" android:contentDescription="Abrir YouTube">
-                <ImageView android:id="@+id/jediYouTubeIcon" android:layout_width="36dp" android:layout_height="36dp"
-                    android:layout_marginEnd="9dp" android:importantForAccessibility="no"/>
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:background="@drawable/jedi_tile"
+                android:gravity="center" android:orientation="horizontal" android:padding="6dp"
+                android:focusable="true" android:clickable="true" android:contentDescription="Abrir YouTube">
+                <ImageView android:id="@+id/jediYouTubeIcon" android:layout_width="39dp" android:layout_height="39dp"
+                    android:layout_marginEnd="8dp" android:importantForAccessibility="no"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YouTube"
-                    android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    android:textSize="21sp" android:textStyle="bold" android:textColor="#FFFFFF" />
             </LinearLayout>
             <LinearLayout android:id="@+id/jediNetflix" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp"
-                android:gravity="center" android:orientation="horizontal" android:padding="10dp" android:background="@drawable/jedi_tile"
-                android:focusable="true" android:clickable="true" android:focusableInTouchMode="false" android:contentDescription="Abrir Netflix">
-                <ImageView android:id="@+id/jediNetflixIcon" android:layout_width="36dp" android:layout_height="36dp"
-                    android:layout_marginEnd="9dp" android:importantForAccessibility="no"/>
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:background="@drawable/jedi_tile"
+                android:gravity="center" android:orientation="horizontal" android:padding="6dp"
+                android:focusable="true" android:clickable="true" android:contentDescription="Abrir Netflix">
+                <ImageView android:id="@+id/jediNetflixIcon" android:layout_width="39dp" android:layout_height="39dp"
+                    android:layout_marginEnd="8dp" android:importantForAccessibility="no"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Netflix"
-                    android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    android:textSize="21sp" android:textStyle="bold" android:textColor="#FF3D50" />
             </LinearLayout>
             <LinearLayout android:id="@+id/jediPrime" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp"
-                android:gravity="center" android:orientation="horizontal" android:padding="10dp" android:background="@drawable/jedi_tile"
-                android:focusable="true" android:clickable="true" android:focusableInTouchMode="false" android:contentDescription="Abrir prime video">
-                <ImageView android:id="@+id/jediPrimeIcon" android:layout_width="36dp" android:layout_height="36dp"
-                    android:layout_marginEnd="9dp" android:importantForAccessibility="no"/>
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:background="@drawable/jedi_tile"
+                android:gravity="center" android:orientation="horizontal" android:padding="6dp"
+                android:focusable="true" android:clickable="true" android:contentDescription="Abrir Prime Video">
+                <ImageView android:id="@+id/jediPrimeIcon" android:layout_width="39dp" android:layout_height="39dp"
+                    android:layout_marginEnd="8dp" android:importantForAccessibility="no"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="prime video"
-                    android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    android:textSize="21sp" android:textStyle="bold" android:textColor="#6BD0FF" />
             </LinearLayout>
             <LinearLayout android:id="@+id/jediPlayStore" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="0dp"
-                android:gravity="center" android:orientation="horizontal" android:padding="10dp" android:background="@drawable/jedi_tile"
-                android:focusable="true" android:clickable="true" android:focusableInTouchMode="false" android:contentDescription="Abrir Play Store">
-                <ImageView android:id="@+id/jediPlayStoreIcon" android:layout_width="36dp" android:layout_height="36dp"
-                    android:layout_marginEnd="9dp" android:importantForAccessibility="no"/>
+                android:layout_height="match_parent" android:background="@drawable/jedi_tile"
+                android:gravity="center" android:orientation="horizontal" android:padding="6dp"
+                android:focusable="true" android:clickable="true" android:contentDescription="Abrir Play Store">
+                <ImageView android:id="@+id/jediPlayStoreIcon" android:layout_width="39dp" android:layout_height="39dp"
+                    android:layout_marginEnd="8dp" android:importantForAccessibility="no"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Play Store"
-                    android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    android:textSize="21sp" android:textStyle="bold" android:textColor="#FFFFFF" />
             </LinearLayout>
         </LinearLayout>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Explora"
-            android:layout_marginTop="21dp" android:layout_marginBottom="10dp" android:textSize="22sp"
-            android:textStyle="bold" android:textColor="#FFFFFFFF"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="84dp" android:orientation="horizontal">
-            <TextView android:id="@+id/jediMeditation" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:gravity="center"
-                android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true"
-                android:text="✧ Meditación" android:textSize="18sp" android:textColor="#FFFFFFFF"/>
-            <TextView android:id="@+id/jediAmbiences" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:gravity="center"
-                android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true"
-                android:text="◈ Ambientes" android:textSize="18sp" android:textColor="#FFFFFFFF"/>
-            <TextView android:id="@+id/jediConfig" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:gravity="center"
-                android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true"
-                android:text="⚙ Configuración" android:textSize="18sp" android:textColor="#FFFFFFFF"/>
-            <TextView android:id="@+id/jediMaintenance" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="match_parent" android:layout_marginEnd="0dp" android:gravity="center"
-                android:background="@drawable/jedi_tile" android:focusable="true" android:clickable="true"
-                android:text="☷ Mantenimiento" android:textSize="18sp" android:textColor="#FFFFFFFF"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Explora" android:textSize="23sp" android:textStyle="bold" android:textColor="#FFFFFF"
+            android:layout_marginTop="21dp" android:layout_marginBottom="12dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="92dp"
+            android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false">
+            <FrameLayout android:id="@+id/jediMeditation" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:focusable="true"
+                android:clickable="true" android:contentDescription="Meditación Jedi"
+                android:background="@drawable/jedi_explore_base" android:foreground="@drawable/jedi_focus_frame">
+                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:src="@drawable/jedi_card_meditation" android:scaleType="centerCrop" android:alpha="0.60"
+                    android:importantForAccessibility="no" />
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="@drawable/jedi_card_scrim" android:importantForAccessibility="no" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="✧  Meditación" android:textSize="18sp" android:textStyle="bold"
+                    android:layout_gravity="bottom" android:gravity="center" android:paddingBottom="12dp"
+                    android:textColor="#FFFFFF" android:importantForAccessibility="no" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/jediAmbiences" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:focusable="true"
+                android:clickable="true" android:contentDescription="Seleccionar ambiente"
+                android:background="@drawable/jedi_explore_base" android:foreground="@drawable/jedi_focus_frame">
+                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:src="@drawable/jedi_card_ambiences" android:scaleType="centerCrop" android:alpha="0.60"
+                    android:importantForAccessibility="no" />
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="@drawable/jedi_card_scrim" android:importantForAccessibility="no" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="◈  Ambientes" android:textSize="18sp" android:textStyle="bold"
+                    android:layout_gravity="bottom" android:gravity="center" android:paddingBottom="12dp"
+                    android:textColor="#FFFFFF" android:importantForAccessibility="no" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/jediConfig" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="match_parent" android:layout_marginEnd="10dp" android:focusable="true"
+                android:clickable="true" android:contentDescription="Configuración"
+                android:background="@drawable/jedi_explore_base" android:foreground="@drawable/jedi_focus_frame">
+                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:src="@drawable/jedi_card_settings" android:scaleType="centerCrop" android:alpha="0.60"
+                    android:importantForAccessibility="no" />
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="@drawable/jedi_card_scrim" android:importantForAccessibility="no" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="⚙  Configuración" android:textSize="18sp" android:textStyle="bold"
+                    android:layout_gravity="bottom" android:gravity="center" android:paddingBottom="12dp"
+                    android:textColor="#FFFFFF" android:importantForAccessibility="no" />
+            </FrameLayout>
+            <FrameLayout android:id="@+id/jediMaintenance" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="match_parent" android:layout_marginEnd="0dp" android:focusable="true"
+                android:clickable="true" android:contentDescription="Mantenimiento"
+                android:background="@drawable/jedi_explore_base" android:foreground="@drawable/jedi_focus_frame">
+                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:src="@drawable/jedi_card_maintenance" android:scaleType="centerCrop" android:alpha="0.60"
+                    android:importantForAccessibility="no" />
+                <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="@drawable/jedi_card_scrim" android:importantForAccessibility="no" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="☷  Mantenimiento" android:textSize="18sp" android:textStyle="bold"
+                    android:layout_gravity="bottom" android:gravity="center" android:paddingBottom="12dp"
+                    android:textColor="#FFFFFF" android:importantForAccessibility="no" />
+            </FrameLayout>
         </LinearLayout>
-    </LinearLayout>
+      </LinearLayout>
+    </ScrollView>
 </FrameLayout>
