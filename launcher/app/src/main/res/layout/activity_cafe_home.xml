@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#150C08" android:clipChildren="false" android:clipToPadding="false">
+    <ImageView android:id="@+id/cafeWallpaper" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:src="@drawable/cafe_wallpaper"
+        android:scaleType="centerCrop" android:importantForAccessibility="no"/>
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="@drawable/cafe_scrim" android:importantForAccessibility="no"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="horizontal" android:padding="9dp" android:clipChildren="false">
+        <LinearLayout android:layout_width="150dp" android:layout_height="match_parent"
+            android:orientation="vertical" android:padding="9dp" android:clipChildren="false"
+            android:background="@drawable/cafe_rail">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="☕  CleanYourTV" android:textStyle="bold" android:textSize="17sp"
+                android:textColor="#FFFFC67B" android:gravity="center_vertical" android:padding="6dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="CAFÉ EDITION · PRUEBA" android:textSize="9sp" android:textColor="#FFF7D5A9"
+                android:paddingStart="8dp" android:paddingBottom="9dp"/>
+            <LinearLayout android:id="@+id/cafeNav" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"/>
+            <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="OK: abrir  ·  Mantén OK: cambiar app" android:textSize="10sp"
+                android:textColor="#EEDEBD95" android:padding="5dp"/>
+        </LinearLayout>
+        <ScrollView android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+            android:layout_marginStart="12dp" android:fillViewport="true" android:scrollbars="none"
+            android:focusable="false">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:paddingEnd="6dp" android:paddingTop="7dp"
+                android:paddingBottom="8dp" android:clipChildren="false" android:clipToPadding="false">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:id="@+id/cafeGreeting" android:layout_width="0dp"
+                        android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="Bienvenido" android:textSize="20sp" android:textStyle="bold"
+                        android:textColor="#FFFFD7A0" android:singleLine="true" android:ellipsize="end"/>
+                    <TextView android:id="@+id/cafeStorage" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
+                        android:background="@drawable/cafe_chip" android:text="Almac. --"
+                        android:textSize="11sp" android:textColor="#FFFFFFFF"
+                        android:focusable="true" android:clickable="true"/>
+                    <TextView android:id="@+id/cafeRam" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
+                        android:background="@drawable/cafe_chip" android:text="RAM --"
+                        android:textSize="11sp" android:textColor="#FFFFFFFF"
+                        android:focusable="true" android:clickable="true"/>
+                    <TextView android:id="@+id/cafeNetwork" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
+                        android:background="@drawable/cafe_chip" android:text="Red"
+                        android:textSize="11sp" android:textColor="#FFFFFFFF"
+                        android:focusable="true" android:clickable="true"/>
+                    <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:format12Hour="h:mm a" android:format24Hour="HH:mm"
+                        android:textSize="18sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                </LinearLayout>
+                <TextView android:id="@+id/cafeSubtitle" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:text="Relájate y disfruta de tu TV"
+                    android:textSize="12sp" android:textColor="#EEEDD2B2"
+                    android:layout_marginTop="3dp"/>
+                <Space android:layout_width="match_parent" android:layout_height="38dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:id="@+id/cafeAppsTitle" android:layout_width="0dp"
+                        android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="Mis aplicaciones · 16 accesos" android:textSize="19sp"
+                        android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    <TextView android:id="@+id/cafeCustomize" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:paddingStart="9dp" android:paddingEnd="9dp"
+                        android:paddingTop="5dp" android:paddingBottom="5dp"
+                        android:background="@drawable/cafe_chip" android:text="✎  Personalizar"
+                        android:textSize="11sp" android:textColor="#FFFFD39F"
+                        android:focusable="true" android:clickable="true"/>
+                </LinearLayout>
+                <LinearLayout android:id="@+id/cafeRowOne" android:layout_width="match_parent"
+                    android:layout_height="80dp" android:orientation="horizontal"
+                    android:layout_marginTop="10dp" android:clipChildren="false"/>
+                <LinearLayout android:id="@+id/cafeRowTwo" android:layout_width="match_parent"
+                    android:layout_height="80dp" android:orientation="horizontal"
+                    android:layout_marginTop="7dp" android:clipChildren="false"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp" android:layout_marginBottom="7dp"
+                    android:text="Experiencias" android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+                <LinearLayout android:id="@+id/cafeExperiences" android:layout_width="match_parent"
+                    android:layout_height="77dp" android:orientation="horizontal" android:clipChildren="false"/>
+                <LinearLayout android:id="@+id/cafeTools" android:layout_width="match_parent"
+                    android:layout_height="37dp" android:orientation="horizontal"
+                    android:layout_marginTop="9dp" android:clipChildren="false"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

@@ -25,6 +25,10 @@
     <!-- Android 11+ package visibility: lets the launcher list the TV apps it shows as tiles, and the
          apps that declare a module card (docs/specs/card.md). -->
     <queries>
+        <package android:name="com.google.android.youtube.tv" />
+        <package android:name="com.netflix.ninja" />
+        <package android:name="com.amazon.amazonvideo.livingroom" />
+        <package android:name="com.android.vending" />
         <!-- The standard settings handlers, so package visibility doesn't hide them and send the pills to a vendor fallback by mistake. -->
         <intent>
             <action android:name="android.settings.SETTINGS" />
@@ -80,6 +84,20 @@
 
         <activity android:name=".JediMeditationActivity" android:exported="false" android:screenOrientation="landscape" />
 
+        <!-- Café Edition preview: new package ID, keeping the installed Jedi launcher untouched. -->
+        <activity android:name=".CafeHomeActivity" android:label="CleanYourTV Café" android:exported="true"
+            android:launchMode="singleTask" android:screenOrientation="landscape"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- Jedi Edition is a separate start screen, with classic MainActivity kept intact as fallback. -->
         <activity android:name=".JediHomeActivity" android:label="CleanYourTV Jedi 2.0" android:exported="true"
             android:launchMode="singleTask" android:screenOrientation="landscape"
