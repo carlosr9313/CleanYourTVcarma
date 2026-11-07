@@ -9,8 +9,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - run: chmod +x gradlew && ./gradlew :app:assembleDebug --no-daemon --max-workers=2
+      - run: cd launcher && chmod +x gradlew && ./gradlew :app:assembleDebug --no-daemon --max-workers=2
       - uses: actions/upload-artifact@v4
         with:
           name: CleanYourTV-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: launcher/app/build/outputs/apk/debug/*.apk
