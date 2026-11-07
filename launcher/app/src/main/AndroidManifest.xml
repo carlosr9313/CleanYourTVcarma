@@ -78,33 +78,26 @@
         android:allowBackup="false"
         android:localeConfig="@xml/locales_config">
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:excludeFromRecents="true"
-            android:clearTaskOnLaunch="true"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode"
-            android:screenOrientation="landscape">
-            <!-- CVTE firmware (ro.CVT_EN_COMMON_HOME_INTENT=1) sends the Home key and boot as MAIN + HOME +
-                 COMMON_HOME, which only matches a filter that lists both (#1201). In this one filter, not a second
-                 one: a plain HOME intent still matches it, and a second filter could list this activity twice. -->
+        <!-- Jedi Edition is a separate start screen, with classic MainActivity kept intact as fallback. -->
+        <activity android:name=".JediHomeActivity" android:exported="true"
+            android:launchMode="singleTask" android:screenOrientation="landscape"
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.COMMON_HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- ColorOS TV: boot only promotes a HOME that declares this category.
-                     docs/devices/oppo-k9-55-oppocnm632.md (prior art: aerial-tv oppo-coloros-tv.md). -->
-                <category android:name="com.heytap.tv.launcher.category.MODERN_HOME" />
             </intent-filter>
-            <!-- Listed in the TV's own app list, so it can be opened from the stock home screen too. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" android:exported="true"
+            android:launchMode="singleTask" android:stateNotNeeded="true"
+            android:excludeFromRecents="true" android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".LauncherSettingsActivity"
