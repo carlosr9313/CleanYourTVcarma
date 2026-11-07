@@ -8,3 +8,10 @@ local.properties
 *.aab
 *.jks
 *.keystore
+
+!app/
+!app/**
+!gradle/
+!gradle/**
+!.github/
+!.github/**

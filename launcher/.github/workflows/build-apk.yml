@@ -1,0 +1,27 @@
+name: Build CleanYourTV APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+      - name: Build debug APK
+        run: bash ./gradlew --no-daemon --max-workers=2 --console=plain :app:assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CleanYourTV-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
