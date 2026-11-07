@@ -1,4 +1,4 @@
-name: Build CleanYourTV Cafe 2.2 Visual
+name: Build CleanYourTV Cafe 2.3 Gallery
 on:
   push:
     branches: [jedi-v2-ui]
@@ -13,9 +13,9 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Build test APK
-        run: cd launcher && chmod +x gradlew && ./gradlew :app:assembleDebug --no-daemon --max-workers=2 -PlauncherApplicationId=com.gathin.tvhome.cafe.v22
+        run: cd launcher && chmod +x gradlew && ./gradlew :app:assembleDebug --no-daemon --max-workers=2 -PlauncherApplicationId=com.gathin.tvhome.cafe.v23
       - uses: actions/upload-artifact@v4
         with:
-          name: CleanYourTV-Cafe-2_2
+          name: CleanYourTV-Cafe-2_3
           path: launcher/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error

@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,41 @@ public class CafeHomeActivity extends Activity {
     private static final String PREFS = "cafe_edition_settings";
     private static final String SLOT = "slot_";
     private static final String WALLPAPER = "cafe_wallpaper";
+    // The wallpaper's saved index is persistent for this APK.  The gallery uses small
+    // preview assets to avoid decoding every full-size image on 32-bit Android TV.
+    private static final String[] WALLPAPER_NAMES = {
+        "Atardecer entre cafetales",
+        "Café acogedor",
+        "Meditación y café",
+        "Amanecer cafetero",
+        "Café entre montañas",
+        "Luz del atardecer",
+        "Café Edition original",
+        "Meditación Jedi",
+        "Noche serena"
+    };
+    private static final int[] WALLPAPER_IMAGES = {
+        R.drawable.cafe_sunset,
+        R.drawable.cafe_lounge,
+        R.drawable.cafe_meditation,
+        R.drawable.cafe_plantation,
+        R.drawable.cafe_mountains,
+        R.drawable.cafe_evening,
+        R.drawable.cafe_wallpaper,
+        R.drawable.jedi_wallpaper,
+        R.drawable.jedi_wallpaper_night
+    };
+    private static final int[] WALLPAPER_PREVIEWS = {
+        R.drawable.cafe_sunset_thumb,
+        R.drawable.cafe_lounge_thumb,
+        R.drawable.cafe_meditation_thumb,
+        R.drawable.cafe_plantation_thumb,
+        R.drawable.cafe_mountains_thumb,
+        R.drawable.cafe_evening_thumb,
+        R.drawable.cafe_wallpaper_thumb,
+        R.drawable.jedi_wallpaper_thumb,
+        R.drawable.jedi_wallpaper_night_thumb
+    };
     private static final String YOUTUBE = "com.google.android.youtube.tv";
     private static final String NETFLIX = "com.netflix.ninja";
     private static final String PRIME = "com.amazon.amazonvideo.livingroom";
@@ -486,20 +522,108 @@ public class CafeHomeActivity extends Activity {
                     }
                 }).setNegativeButton("Cerrar", null).show();
     }
+    /** TV-friendly gallery: two focusable columns, saved selection, light thumbnail assets. */
     private void chooseWallpaper() {
-        String[] names={"Café colombiano", "Meditación Jedi", "Noche serena"};
-        int chosen=getSharedPreferences(PREFS, MODE_PRIVATE).getInt(WALLPAPER, 0);
-        new AlertDialog.Builder(this).setTitle("Cambiar ambiente y fondo")
-                .setSingleChoiceItems(names, chosen, (d, value) -> {
-                    getSharedPreferences(PREFS, MODE_PRIVATE).edit().putInt(WALLPAPER, value).apply();
-                    applyWallpaper(); d.dismiss();
-                }).setNegativeButton("Cancelar", null).show();
+        final SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        int selected = prefs.getInt(WALLPAPER, 0);
+        final ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(false);
+        scroll.setPadding(dp(9), dp(5), dp(9), dp(5));
+        scroll.setVerticalScrollBarEnabled(false);
+        final LinearLayout list = new LinearLayout(this);
+        list.setOrientation(LinearLayout.VERTICAL);
+        scroll.addView(list);
+        final ArrayList<View> items = new ArrayList<>();
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Fondos · Café Edition 2.3")
+                .setView(scroll)
+                .setNegativeButton("Cerrar", null)
+                .create();
+        for (int start = 0; start < WALLPAPER_NAMES.length; start += 2) {
+            final LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(-1, dp(122));
+            rowLp.bottomMargin = dp(8);
+            list.addView(row, rowLp);
+            for (int column = 0; column < 2; column++) {
+                int index = start + column;
+                if (index >= WALLPAPER_NAMES.length) {
+                    View blank = new View(this);
+                    row.addView(blank, new LinearLayout.LayoutParams(0, -1, 1f));
+                    continue;
+                }
+                FrameLayout card = new FrameLayout(this);
+                card.setId(View.generateViewId());
+                card.setFocusable(true); card.setClickable(true);
+                card.setBackground(wallpaperChoiceBackground(index == selected));
+                LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(0, -1, 1f);
+                if (column == 0) cardLp.rightMargin = dp(9);
+                row.addView(card, cardLp);
+                ImageView preview = new ImageView(this);
+                preview.setImageResource(WALLPAPER_PREVIEWS[index]);
+                preview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                preview.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                FrameLayout.LayoutParams imageLp = new FrameLayout.LayoutParams(-1, -1);
+                imageLp.setMargins(dp(3), dp(3), dp(3), dp(3));
+                card.addView(preview, imageLp);
+                TextView title = new TextView(this);
+                title.setText(WALLPAPER_NAMES[index] + (index == selected ? "  ✓" : ""));
+                title.setGravity(Gravity.CENTER_VERTICAL);
+                title.setTextSize(12);
+                title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                title.setTextColor(0xFFFFFFFF);
+                title.setPadding(dp(9), dp(4), dp(7), dp(4));
+                title.setBackgroundColor(0xCC130C08);
+                FrameLayout.LayoutParams labelLp = new FrameLayout.LayoutParams(-1, dp(32), Gravity.BOTTOM);
+                labelLp.setMargins(dp(3), 0, dp(3), dp(3));
+                card.addView(title, labelLp);
+                card.setContentDescription("Aplicar fondo: " + WALLPAPER_NAMES[index]);
+                final int choice = index;
+                card.setOnClickListener(v -> {
+                    prefs.edit().putInt(WALLPAPER, choice).apply();
+                    applyWallpaper();
+                    dialog.dismiss();
+                    toast("Fondo aplicado: " + WALLPAPER_NAMES[choice]);
+                });
+                card.setOnFocusChangeListener((view, focused) -> {
+                    view.animate().cancel();
+                    view.setScaleX(focused ? 1.015f : 1f);
+                    view.setScaleY(focused ? 1.015f : 1f);
+                });
+                items.add(card);
+            }
+        }
+        dialog.setOnShowListener(ignored -> {
+            int target = Math.max(0, Math.min(selected, items.size() - 1));
+            if (!items.isEmpty()) {
+                items.get(target).requestFocus();
+                final int selectedRow = target / 2;
+                scroll.post(() -> scroll.smoothScrollTo(0, selectedRow * dp(130)));
+            }
+        });
+        dialog.show();
     }
+
+    private StateListDrawable wallpaperChoiceBackground(boolean chosen) {
+        GradientDrawable normal = new GradientDrawable();
+        normal.setColor(chosen ? 0xFF54331B : 0xFF1A110D);
+        normal.setCornerRadius(dp(10));
+        normal.setStroke(dp(chosen ? 3 : 1), chosen ? 0xFFFFCC75 : 0xFF785C44);
+        GradientDrawable focused = new GradientDrawable();
+        focused.setColor(0xFF352114);
+        focused.setCornerRadius(dp(10));
+        focused.setStroke(dp(4), 0xFFFFAD40);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_focused}, focused);
+        states.addState(new int[]{}, normal);
+        return states;
+    }
+
     private void applyWallpaper() {
         if (wallpaper == null) return;
-        int value=getSharedPreferences(PREFS, MODE_PRIVATE).getInt(WALLPAPER, 0);
-        wallpaper.setImageResource(value == 1 ? R.drawable.jedi_wallpaper :
-                value == 2 ? R.drawable.jedi_wallpaper_night : R.drawable.cafe_wallpaper);
+        int value = getSharedPreferences(PREFS, MODE_PRIVATE).getInt(WALLPAPER, 0);
+        if (value < 0 || value >= WALLPAPER_IMAGES.length) value = 0;
+        wallpaper.setImageResource(WALLPAPER_IMAGES[value]);
     }
     private void chooseMeditation() {
         final int[] times={5,10,20,30};
