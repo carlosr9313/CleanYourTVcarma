@@ -10,6 +10,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -24,6 +28,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +59,7 @@ public class CafeHomeActivity extends Activity {
     private final ArrayList<View> tiles = new ArrayList<>();
     private final ArrayList<View> navButtons = new ArrayList<>();
     private final ArrayList<View> experiences = new ArrayList<>();
+    private final ArrayList<View> quickTools = new ArrayList<>();
     private LinearLayout rowOne, rowTwo;
     private ImageView wallpaper;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -184,68 +190,107 @@ public class CafeHomeActivity extends Activity {
         return "App no disponible";
     }
 
+    // Logo-first card layout: recognisable branding and high-contrast focus for a distant TV viewer.
     private void fillGrid() {
         rowOne.removeAllViews(); rowTwo.removeAllViews(); tiles.clear();
         for (int index = 0; index < 16; index++) {
             final int slot = index;
-            String code = codeForSlot(slot);
+            final String code = codeForSlot(slot);
             LinearLayout card = new LinearLayout(this);
             card.setId(View.generateViewId());
-            card.setBackgroundResource(R.drawable.cafe_tile);
+            card.setBackground(tileBackground(code));
             card.setOrientation(LinearLayout.VERTICAL);
             card.setGravity(Gravity.CENTER);
             card.setFocusable(true); card.setClickable(true); card.setLongClickable(true);
-            card.setPadding(dp(3), dp(3), dp(3), dp(3));
+            card.setPadding(dp(4), dp(3), dp(4), dp(3));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, -1, 1f);
-            if ((index % 8) != 7) lp.rightMargin = dp(5);
+            if ((index % 8) != 7) lp.rightMargin = dp(6);
             (index < 8 ? rowOne : rowTwo).addView(card, lp);
-            if (code.startsWith("pkg:")) {
+            final String pkg = code.startsWith("pkg:") ? code.substring(4) : "";
+            if (pkg.equals(NETFLIX) || pkg.equals(PRIME)) {
+                TextView brand = new TextView(this);
+                brand.setText(pkg.equals(NETFLIX) ? "NETFLIX" : "prime\nvideo");
+                brand.setTextSize(pkg.equals(NETFLIX) ? 17 : 16);
+                brand.setTextColor(pkg.equals(NETFLIX) ? 0xFFE50914 : 0xFF41CFFF);
+                brand.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                brand.setGravity(Gravity.CENTER); brand.setMaxLines(2);
+                card.addView(brand, new LinearLayout.LayoutParams(-1, dp(43)));
+            } else if (pkg.equals(YOUTUBE)) {
+                TextView playIcon = new TextView(this);
+                playIcon.setText("▶"); playIcon.setTextSize(21); playIcon.setTextColor(0xFFFFFFFF);
+                playIcon.setGravity(Gravity.CENTER); playIcon.setBackgroundResource(R.drawable.cafe_youtube_icon);
+                card.addView(playIcon, new LinearLayout.LayoutParams(dp(44), dp(32)));
+            } else if (code.startsWith("pkg:")) {
                 ImageView icon = new ImageView(this);
                 icon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-                LinearLayout.LayoutParams iconLp = new LinearLayout.LayoutParams(dp(31), dp(31));
-                card.addView(icon, iconLp);
-                try {
-                    Drawable drawable = getPackageManager().getApplicationIcon(code.substring(4));
-                    icon.setImageDrawable(drawable);
-                } catch (PackageManager.NameNotFoundException ignored) {
+                card.addView(icon, new LinearLayout.LayoutParams(dp(39), dp(39)));
+                try { icon.setImageDrawable(getPackageManager().getApplicationIcon(pkg)); }
+                catch (PackageManager.NameNotFoundException ignored) {
                     icon.setImageResource(android.R.drawable.sym_def_app_icon);
                 }
             } else {
                 TextView symbol = new TextView(this);
                 symbol.setText(actionSymbol(code.substring(7)));
-                symbol.setTextSize(25);
-                symbol.setTextColor(0xFFFFBA6B);
+                symbol.setTextSize(28); symbol.setTextColor(0xFFFFD49D);
                 symbol.setGravity(Gravity.CENTER);
-                card.addView(symbol, new LinearLayout.LayoutParams(-1, dp(33)));
+                card.addView(symbol, new LinearLayout.LayoutParams(-1, dp(39)));
             }
             TextView label = new TextView(this);
-            label.setText(labelForCode(code));
-            label.setTextColor(0xFFFFFFFF); label.setTextSize(10);
+            label.setText(labelForCode(code)); label.setTextColor(0xFFFFFFFF);
+            label.setTextSize(12); label.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             label.setGravity(Gravity.CENTER); label.setMaxLines(2);
             label.setEllipsize(TextUtils.TruncateAt.END);
-            LinearLayout.LayoutParams labelLp = new LinearLayout.LayoutParams(-1, dp(30));
-            labelLp.topMargin = dp(2);
+            LinearLayout.LayoutParams labelLp = new LinearLayout.LayoutParams(-1, dp(27));
+            labelLp.topMargin = dp(1);
             card.addView(label, labelLp);
             card.setContentDescription(labelForCode(code) + ". Mantén OK para personalizar.");
             card.setOnClickListener(v -> runCode(code));
             card.setOnLongClickListener(v -> { chooseSlot(slot); return true; });
-            focusScale(card);
-            tiles.add(card);
+            focusScale(card); tiles.add(card);
         }
         for (int i=0; i<16; i++) {
             View v = tiles.get(i);
             v.setNextFocusLeftId(i % 8 == 0 ? navButtons.get(0).getId() : tiles.get(i-1).getId());
             v.setNextFocusRightId(i % 8 == 7 ? v.getId() : tiles.get(i+1).getId());
             v.setNextFocusUpId(i < 8 ? R.id.cafeCustomize : tiles.get(i-8).getId());
-            v.setNextFocusDownId(i < 8 ? tiles.get(i+8).getId() : experiences.get(Math.min(3, i % 8 / 2)).getId());
+            v.setNextFocusDownId(i < 8 ? tiles.get(i+8).getId() :
+                    quickTools.get(Math.min(quickTools.size()-1, i % 8 * quickTools.size()/8)).getId());
         }
         for (View nav : navButtons) nav.setNextFocusRightId(tiles.get(0).getId());
+        for (int i=0; i<quickTools.size(); i++) {
+            View v=quickTools.get(i);
+            v.setNextFocusUpId(tiles.get(8 + Math.min(7, i * 8 / quickTools.size())).getId());
+            v.setNextFocusDownId(experiences.get(Math.min(3,i*4/quickTools.size())).getId());
+            v.setNextFocusLeftId(i == 0 ? navButtons.get(0).getId() : quickTools.get(i-1).getId());
+            v.setNextFocusRightId(i == quickTools.size()-1 ? v.getId() : quickTools.get(i+1).getId());
+        }
         for (int i=0; i<experiences.size(); i++) {
             View v = experiences.get(i);
-            v.setNextFocusUpId(tiles.get(8 + Math.min(7, i*2)).getId());
+            v.setNextFocusUpId(quickTools.get(Math.min(quickTools.size()-1,i*quickTools.size()/4)).getId());
             v.setNextFocusLeftId(i == 0 ? navButtons.get(0).getId() : experiences.get(i-1).getId());
             v.setNextFocusRightId(i == experiences.size()-1 ? v.getId() : experiences.get(i+1).getId());
         }
+    }
+
+    private StateListDrawable tileBackground(String code) {
+        int base = 0xFF17120E;
+        if (code.equals("pkg:" + NETFLIX)) base = 0xFF270A11;
+        else if (code.equals("pkg:" + PRIME)) base = 0xFF073049;
+        else if (code.equals("pkg:" + PLAY)) base = 0xFF161F26;
+        else if (code.equals("pkg:" + YOUTUBE)) base = 0xFF260D08;
+        else if (code.contains("spotify")) base = 0xFF09241B;
+        else if (code.contains("pluto")) base = 0xFF1D192B;
+        else if (code.contains("dgo")) base = 0xFF201408;
+        GradientDrawable normal = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{base, 0xFF100D0B});
+        normal.setCornerRadius(dp(12)); normal.setStroke(dp(1), 0xFF7D6759);
+        GradientDrawable focus = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{base, 0xFF25160C});
+        focus.setCornerRadius(dp(12)); focus.setStroke(dp(3), 0xFFFFBA54);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_focused}, focus);
+        states.addState(new int[]{}, normal);
+        return states;
     }
 
     private void createNavigation() {
@@ -256,10 +301,8 @@ public class CafeHomeActivity extends Activity {
         addNav(rail, "◈  Ambientes", this::chooseWallpaper);
         addNav(rail, "☕  Café y origen", this::coffeeDialog);
         addNav(rail, "▦  Aplicaciones", this::allAppsDialog);
-        addNav(rail, "◎  Redes", this::networkDialog);
         addNav(rail, "☷  Mantenimiento", this::maintenanceDialog);
         addNav(rail, "⚙  Configuración", () -> openSystem(Settings.ACTION_SETTINGS));
-        addNav(rail, "✎  Personalizar", this::customizeGrid);
         for (int i=0; i<navButtons.size(); i++) {
             View v = navButtons.get(i);
             v.setNextFocusUpId(navButtons.get(Math.max(0,i-1)).getId());
@@ -270,65 +313,95 @@ public class CafeHomeActivity extends Activity {
     private void addNav(LinearLayout rail, String title, Runnable action) {
         TextView v = new TextView(this);
         v.setId(View.generateViewId());
-        v.setText(title); v.setTextSize(13); v.setTextColor(0xFFFFE1BA);
-        v.setGravity(Gravity.CENTER_VERTICAL);
-        v.setPadding(dp(10), 0, dp(4), 0);
+        v.setText(title); v.setTextSize(15); v.setTextColor(0xFFFFE9CE);
+        v.setGravity(Gravity.CENTER_VERTICAL); v.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+        v.setPadding(dp(9), 0, dp(4), 0);
         v.setFocusable(true); v.setClickable(true);
         v.setBackgroundResource(R.drawable.cafe_nav);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(37));
-        lp.bottomMargin = dp(3); rail.addView(v, lp);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(42));
+        lp.bottomMargin = dp(5); rail.addView(v, lp);
         v.setOnClickListener(view -> action.run());
         focusScale(v); navButtons.add(v);
     }
-
     private void createExperiences() {
         LinearLayout root = findViewById(R.id.cafeExperiences);
         root.removeAllViews(); experiences.clear();
-        addExperience(root, "✦ Meditación", "Temporizador 5–30 min", this::chooseMeditation);
-        addExperience(root, "☕ Café y origen", "Preparaciones y cultura", this::coffeeDialog);
-        addExperience(root, "◈ Ambientes", "Cambia el fondo", this::chooseWallpaper);
-        addExperience(root, "☷ Mantenimiento", "Memoria y aplicaciones", this::maintenanceDialog);
+        addExperience(root, "Meditación guiada", "Respira · Enfócate · Relájate",
+                R.drawable.cafe_card_meditation, this::chooseMeditation);
+        addExperience(root, "Experiencia del café", "Origen · Cultura · Preparación",
+                R.drawable.cafe_card_coffee, this::coffeeDialog);
+        addExperience(root, "Ambientes y paisajes", "Fondos · Sonidos · Naturaleza",
+                R.drawable.cafe_card_landscape, this::chooseWallpaper);
+        addExperience(root, "Estado del sistema", "Memoria · Redes · Aplicaciones",
+                R.drawable.cafe_card_system, this::maintenanceDialog);
     }
-    private void addExperience(LinearLayout root, String title, String subtitle, Runnable action) {
-        LinearLayout card = new LinearLayout(this);
-        card.setId(View.generateViewId()); card.setOrientation(LinearLayout.VERTICAL);
-        card.setGravity(Gravity.CENTER); card.setBackgroundResource(R.drawable.cafe_chip);
-        card.setFocusable(true); card.setClickable(true);
+    private void addExperience(LinearLayout row, String title, String subtitle, int image, Runnable action) {
+        FrameLayout card = new FrameLayout(this);
+        card.setId(View.generateViewId()); card.setBackgroundResource(R.drawable.cafe_experience_outline);
+        card.setClipToOutline(true); card.setFocusable(true); card.setClickable(true);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, -1, 1f);
-        lp.rightMargin = dp(6); root.addView(card, lp);
+        if (row.getChildCount() < 3) lp.rightMargin = dp(8);
+        row.addView(card, lp);
+        ImageView photo = new ImageView(this);
+        photo.setImageResource(image); photo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        photo.setFocusable(false);
+        card.addView(photo, new FrameLayout.LayoutParams(-1,-1));
+        View scrim = new View(this); scrim.setBackgroundResource(R.drawable.cafe_experience_scrim);
+        card.addView(scrim, new FrameLayout.LayoutParams(-1,-1));
+        LinearLayout labels = new LinearLayout(this);
+        labels.setOrientation(LinearLayout.VERTICAL); labels.setPadding(dp(8),dp(3),dp(6),dp(6));
+        FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM);
+        card.addView(labels, labelParams);
         TextView header = new TextView(this);
-        header.setText(title); header.setTextColor(0xFFFFFFFF); header.setTextSize(15);
-        header.setGravity(Gravity.CENTER); header.setTypeface(null, 1);
-        card.addView(header, new LinearLayout.LayoutParams(-1, dp(30)));
+        header.setText(title); header.setTextColor(0xFFFFFFFF); header.setTextSize(14);
+        header.setTypeface(Typeface.DEFAULT, Typeface.BOLD); header.setSingleLine(true);
+        header.setEllipsize(TextUtils.TruncateAt.END);
+        labels.addView(header, new LinearLayout.LayoutParams(-1, dp(22)));
         TextView sub = new TextView(this);
-        sub.setText(subtitle); sub.setTextColor(0xFFEFD2AA); sub.setTextSize(10);
-        sub.setGravity(Gravity.CENTER); sub.setSingleLine(true);
-        card.addView(sub, new LinearLayout.LayoutParams(-1, dp(21)));
+        sub.setText(subtitle); sub.setTextColor(0xFFFFE0BB); sub.setTextSize(10);
+        sub.setSingleLine(true); sub.setEllipsize(TextUtils.TruncateAt.END);
+        labels.addView(sub, new LinearLayout.LayoutParams(-1, dp(17)));
+        View outline = new View(this); outline.setBackgroundResource(R.drawable.cafe_experience_outline);
+        outline.setDuplicateParentStateEnabled(true);
+        card.addView(outline, new FrameLayout.LayoutParams(-1,-1));
+        outline.setFocusable(false); outline.setClickable(false);
         card.setOnClickListener(v -> action.run());
         focusScale(card); experiences.add(card);
     }
     private void createTools() {
         LinearLayout tools = findViewById(R.id.cafeTools);
-        tools.removeAllViews();
-        addTool(tools, "◎ Redes", this::networkDialog);
-        addTool(tools, "▰ Memoria", this::storageDialog);
-        addTool(tools, "✎ Cambiar apps", this::customizeGrid);
-        addTool(tools, "◈ Fondo", this::chooseWallpaper);
-        addTool(tools, "⚙ Ajustes", () -> openSystem(Settings.ACTION_SETTINGS));
+        tools.removeAllViews(); quickTools.clear();
+        addTool(tools, "◎", "Redes", this::networkDialog);
+        addTool(tools, "▰", "Almacenamiento", this::storageDialog);
+        addTool(tools, "☷", "Limpiar TV", this::maintenanceDialog);
+        addTool(tools, "▦", "Apps", this::allAppsDialog);
+        addTool(tools, "ᛒ", "Bluetooth", () -> openSystem(Settings.ACTION_BLUETOOTH_SETTINGS));
+        addTool(tools, "⚙", "Ajustes del TV", () -> openSystem(Settings.ACTION_SETTINGS));
     }
-    private void addTool(LinearLayout tools, String title, Runnable action) {
-        TextView t = new TextView(this);
-        t.setText(title); t.setTextColor(0xFFFFFFFF); t.setTextSize(11);
-        t.setGravity(Gravity.CENTER); t.setBackgroundResource(R.drawable.cafe_chip);
-        t.setFocusable(true); t.setClickable(true);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, -1, 1f);
-        lp.rightMargin = dp(6); tools.addView(t, lp);
-        t.setOnClickListener(v -> action.run()); focusScale(t);
+    private void addTool(LinearLayout tools, String symbol, String title, Runnable action) {
+        LinearLayout tile = new LinearLayout(this);
+        tile.setId(View.generateViewId()); tile.setOrientation(LinearLayout.VERTICAL);
+        tile.setGravity(Gravity.CENTER); tile.setBackgroundResource(R.drawable.cafe_chip);
+        tile.setFocusable(true); tile.setClickable(true);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,-1,1f);
+        if (tools.getChildCount() < 5) lp.rightMargin = dp(7);
+        tools.addView(tile,lp);
+        TextView icon = new TextView(this);
+        icon.setText(symbol); icon.setTextSize(21); icon.setTextColor(0xFFFFD294);
+        icon.setGravity(Gravity.CENTER);
+        tile.addView(icon,new LinearLayout.LayoutParams(-1,dp(25)));
+        TextView label = new TextView(this);
+        label.setText(title); label.setTextColor(0xFFFFFFFF);
+        label.setTypeface(Typeface.DEFAULT,Typeface.BOLD); label.setTextSize(10);
+        label.setGravity(Gravity.CENTER); label.setSingleLine(true);
+        tile.addView(label,new LinearLayout.LayoutParams(-1,dp(20)));
+        tile.setOnClickListener(v->action.run());
+        focusScale(tile); quickTools.add(tile);
     }
     private void focusScale(View v) {
         v.setOnFocusChangeListener((view, focused) -> {
             view.animate().cancel();
-            view.animate().scaleX(focused ? 1.035f : 1f).scaleY(focused ? 1.035f : 1f)
+            view.animate().scaleX(focused ? 1.055f : 1f).scaleY(focused ? 1.055f : 1f)
                     .setDuration(100).start();
         });
     }
@@ -338,11 +411,16 @@ public class CafeHomeActivity extends Activity {
         int hour = now.get(Calendar.HOUR_OF_DAY);
         String hello = hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
         ((TextView)findViewById(R.id.cafeGreeting)).setText(hello + ", Carlos");
-        String date = new SimpleDateFormat("EEEE, d 'de' MMMM", new Locale("es", "CO")).format(now.getTime());
-        ((TextView)findViewById(R.id.cafeSubtitle)).setText("Café Edition  ·  " + date + "  ·  16 accesos personalizables");
-        ((TextView)findViewById(R.id.cafeStorage)).setText("Almac. " + storageFree());
-        ((TextView)findViewById(R.id.cafeRam)).setText("RAM " + ramFree());
-        ((TextView)findViewById(R.id.cafeNetwork)).setText("◎ " + networkLabel());
+        ((TextView)findViewById(R.id.cafeSubtitle)).setText("Relájate, explora y disfruta tu TV");
+        try {
+            StatFs fs = new StatFs(Environment.getDataDirectory().getAbsolutePath());
+            ((TextView)findViewById(R.id.cafeStorage)).setText(
+                "ALMACENAMIENTO\n" + size(fs.getAvailableBytes()) + " libres");
+        } catch (RuntimeException e) {
+            ((TextView)findViewById(R.id.cafeStorage)).setText("ALMACENAMIENTO\nN/D");
+        }
+        ((TextView)findViewById(R.id.cafeRam)).setText("RAM DISPONIBLE\n" + ramFree());
+        ((TextView)findViewById(R.id.cafeNetwork)).setText("REDES\n" + networkLabel());
     }
     private String size(long bytes) {
         double gb = bytes / 1073741824.0;

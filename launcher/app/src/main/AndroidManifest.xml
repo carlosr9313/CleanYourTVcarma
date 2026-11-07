@@ -85,7 +85,7 @@
         <activity android:name=".JediMeditationActivity" android:exported="false" android:screenOrientation="landscape" />
 
         <!-- Café Edition preview: new package ID, keeping the installed Jedi launcher untouched. -->
-        <activity android:name=".CafeHomeActivity" android:label="CleanYourTV Café" android:exported="true"
+        <activity android:name=".CafeHomeActivity" android:label="CleanYourTV Café 2.2" android:exported="true"
             android:launchMode="singleTask" android:screenOrientation="landscape"
             android:excludeFromRecents="true">
             <intent-filter>

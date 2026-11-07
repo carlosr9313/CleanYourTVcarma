@@ -1,94 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#150C08" android:clipChildren="false" android:clipToPadding="false">
+    android:background="#110806" android:clipChildren="false" android:clipToPadding="false">
     <ImageView android:id="@+id/cafeWallpaper" android:layout_width="match_parent"
         android:layout_height="match_parent" android:src="@drawable/cafe_wallpaper"
         android:scaleType="centerCrop" android:importantForAccessibility="no"/>
     <View android:layout_width="match_parent" android:layout_height="match_parent"
         android:background="@drawable/cafe_scrim" android:importantForAccessibility="no"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:orientation="horizontal" android:padding="9dp" android:clipChildren="false">
-        <LinearLayout android:layout_width="150dp" android:layout_height="match_parent"
-            android:orientation="vertical" android:padding="9dp" android:clipChildren="false"
+        android:orientation="horizontal" android:padding="7dp" android:clipChildren="false"
+        android:clipToPadding="false">
+        <LinearLayout android:layout_width="152dp" android:layout_height="match_parent"
+            android:orientation="vertical" android:padding="10dp" android:clipChildren="false"
             android:background="@drawable/cafe_rail">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="☕  CleanYourTV" android:textStyle="bold" android:textSize="17sp"
-                android:textColor="#FFFFC67B" android:gravity="center_vertical" android:padding="6dp"/>
+                android:text="☕ CleanYourTV" android:textStyle="bold" android:textSize="18sp"
+                android:textColor="#FFFFE1B0" android:gravity="center_vertical" android:padding="5dp"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="CAFÉ EDITION · PRUEBA" android:textSize="9sp" android:textColor="#FFF7D5A9"
-                android:paddingStart="8dp" android:paddingBottom="9dp"/>
+                android:text="CAFÉ EDITION 2.2" android:textSize="10sp" android:textColor="#FFFFBF69"
+                android:paddingStart="7dp" android:paddingBottom="13dp"/>
             <LinearLayout android:id="@+id/cafeNav" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:orientation="vertical"/>
             <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="OK: abrir  ·  Mantén OK: cambiar app" android:textSize="10sp"
-                android:textColor="#EEDEBD95" android:padding="5dp"/>
+                android:text="OK: abrir  ·  Mantén OK: cambiar" android:textSize="9sp"
+                android:textColor="#FFDAB98A" android:padding="5dp"/>
         </LinearLayout>
-        <ScrollView android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
-            android:layout_marginStart="12dp" android:fillViewport="true" android:scrollbars="none"
-            android:focusable="false">
+        <ScrollView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent" android:layout_marginStart="12dp"
+            android:fillViewport="true" android:scrollbars="none" android:focusable="false"
+            android:descendantFocusability="afterDescendants">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:paddingEnd="6dp" android:paddingTop="7dp"
-                android:paddingBottom="8dp" android:clipChildren="false" android:clipToPadding="false">
+                android:orientation="vertical" android:paddingEnd="5dp" android:paddingTop="8dp"
+                android:paddingBottom="6dp" android:clipChildren="false" android:clipToPadding="false">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="horizontal" android:gravity="center_vertical">
-                    <TextView android:id="@+id/cafeGreeting" android:layout_width="0dp"
-                        android:layout_weight="1" android:layout_height="wrap_content"
-                        android:text="Bienvenido" android:textSize="20sp" android:textStyle="bold"
-                        android:textColor="#FFFFD7A0" android:singleLine="true" android:ellipsize="end"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content" android:orientation="vertical">
+                        <TextView android:id="@+id/cafeGreeting" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="Bienvenido, Carlos"
+                            android:textColor="#FFFFDEAC" android:textSize="23sp" android:textStyle="bold"
+                            android:singleLine="true" android:ellipsize="end"/>
+                        <TextView android:id="@+id/cafeSubtitle" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="Relájate, explora y disfruta tu TV"
+                            android:textColor="#FFF7E4CC" android:textSize="11sp" android:singleLine="true"/>
+                    </LinearLayout>
                     <TextView android:id="@+id/cafeStorage" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
-                        android:background="@drawable/cafe_chip" android:text="Almac. --"
-                        android:textSize="11sp" android:textColor="#FFFFFFFF"
-                        android:focusable="true" android:clickable="true"/>
+                        android:layout_height="wrap_content" android:padding="9dp"
+                        android:layout_marginEnd="5dp" android:background="@drawable/cafe_status"
+                        android:text="Almacenamiento&#10;--" android:gravity="center" android:textSize="10sp"
+                        android:textColor="#FFFFFFFF" android:focusable="true" android:clickable="true"/>
                     <TextView android:id="@+id/cafeRam" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
-                        android:background="@drawable/cafe_chip" android:text="RAM --"
-                        android:textSize="11sp" android:textColor="#FFFFFFFF"
-                        android:focusable="true" android:clickable="true"/>
+                        android:layout_height="wrap_content" android:padding="9dp"
+                        android:layout_marginEnd="5dp" android:background="@drawable/cafe_status"
+                        android:text="RAM&#10;--" android:gravity="center" android:textSize="10sp"
+                        android:textColor="#FFFFFFFF" android:focusable="true" android:clickable="true"/>
                     <TextView android:id="@+id/cafeNetwork" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:padding="8dp" android:layout_marginEnd="5dp"
-                        android:background="@drawable/cafe_chip" android:text="Red"
-                        android:textSize="11sp" android:textColor="#FFFFFFFF"
-                        android:focusable="true" android:clickable="true"/>
-                    <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:format12Hour="h:mm a" android:format24Hour="HH:mm"
-                        android:textSize="18sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                        android:layout_height="wrap_content" android:padding="9dp"
+                        android:layout_marginEnd="5dp" android:background="@drawable/cafe_status"
+                        android:text="Red&#10;--" android:gravity="center" android:textSize="10sp"
+                        android:textColor="#FFFFFFFF" android:focusable="true" android:clickable="true"/>
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:orientation="vertical" android:gravity="end" android:paddingStart="5dp">
+                        <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:format12Hour="h:mm a" android:format24Hour="HH:mm"
+                            android:textSize="19sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                        <TextClock android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:format12Hour="EEE d MMM" android:format24Hour="EEE d MMM"
+                            android:textSize="10sp" android:textColor="#FFFFDABA"/>
+                    </LinearLayout>
                 </LinearLayout>
-                <TextView android:id="@+id/cafeSubtitle" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:text="Relájate y disfruta de tu TV"
-                    android:textSize="12sp" android:textColor="#EEEDD2B2"
-                    android:layout_marginTop="3dp"/>
-                <Space android:layout_width="match_parent" android:layout_height="38dp"/>
+                <Space android:layout_width="match_parent" android:layout_height="42dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="horizontal" android:gravity="center_vertical">
-                    <TextView android:id="@+id/cafeAppsTitle" android:layout_width="0dp"
-                        android:layout_weight="1" android:layout_height="wrap_content"
-                        android:text="Mis aplicaciones · 16 accesos" android:textSize="19sp"
-                        android:textStyle="bold" android:textColor="#FFFFFFFF"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content" android:text="▦  Mis aplicaciones (16)"
+                        android:textSize="19sp" android:textStyle="bold" android:textColor="#FFFFFFFF"/>
                     <TextView android:id="@+id/cafeCustomize" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:paddingStart="9dp" android:paddingEnd="9dp"
-                        android:paddingTop="5dp" android:paddingBottom="5dp"
-                        android:background="@drawable/cafe_chip" android:text="✎  Personalizar"
-                        android:textSize="11sp" android:textColor="#FFFFD39F"
-                        android:focusable="true" android:clickable="true"/>
+                        android:layout_height="wrap_content" android:text="Ver todas / Cambiar"
+                        android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="5dp"
+                        android:paddingBottom="5dp" android:background="@drawable/cafe_chip"
+                        android:textSize="10sp" android:textColor="#FFFFE0B4" android:focusable="true"
+                        android:clickable="true"/>
                 </LinearLayout>
                 <LinearLayout android:id="@+id/cafeRowOne" android:layout_width="match_parent"
-                    android:layout_height="80dp" android:orientation="horizontal"
-                    android:layout_marginTop="10dp" android:clipChildren="false"/>
+                    android:layout_height="75dp" android:orientation="horizontal" android:layout_marginTop="9dp"
+                    android:clipChildren="false"/>
                 <LinearLayout android:id="@+id/cafeRowTwo" android:layout_width="match_parent"
-                    android:layout_height="80dp" android:orientation="horizontal"
-                    android:layout_marginTop="7dp" android:clipChildren="false"/>
+                    android:layout_height="75dp" android:orientation="horizontal" android:layout_marginTop="7dp"
+                    android:clipChildren="false"/>
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp" android:layout_marginBottom="7dp"
-                    android:text="Experiencias" android:textSize="18sp" android:textStyle="bold"
+                    android:layout_marginTop="12dp" android:layout_marginBottom="6dp"
+                    android:text="⚒  Herramientas rápidas" android:textSize="17sp" android:textStyle="bold"
+                    android:textColor="#FFFFFFFF"/>
+                <LinearLayout android:id="@+id/cafeTools" android:layout_width="match_parent"
+                    android:layout_height="51dp" android:orientation="horizontal" android:clipChildren="false"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" android:layout_marginBottom="6dp"
+                    android:text="◈  Experiencias" android:textSize="17sp" android:textStyle="bold"
                     android:textColor="#FFFFFFFF"/>
                 <LinearLayout android:id="@+id/cafeExperiences" android:layout_width="match_parent"
-                    android:layout_height="77dp" android:orientation="horizontal" android:clipChildren="false"/>
-                <LinearLayout android:id="@+id/cafeTools" android:layout_width="match_parent"
-                    android:layout_height="37dp" android:orientation="horizontal"
-                    android:layout_marginTop="9dp" android:clipChildren="false"/>
+                    android:layout_height="97dp" android:orientation="horizontal" android:clipChildren="false"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
